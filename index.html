@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/element.css">
+  <script src="./js/vue.global.js"></script>
+  <script src="./js/element.js"></script>
+  <style>
+    .title-wrap{
+      width:1000px;
+      display:flex;
+    }
+    .title{
+      margin-right: 5px;
+      flex:0 0 auto;
+      font-weight: bold;
+    }
+    .summary-wrap{
+      padding: 20px;
+    }
+    .opt-wrap{
+      padding-left: 58px;
+    }
+  </style>
+</head>
+<body>
+  <div id="counter">
+    <div>
+      <el-input
+        type="textarea"
+        :rows="5"
+        placeholder="请输入内容"
+        v-model="inputJson">
+      </el-input>
+      <el-button @click="handelToJson">转换</el-button>
+    </div>
+    <div class="summary-wrap">
+      <h1>{{summaryInfo.title}}</h1>
+      <div v-for="(item,i) in summaryInfo.questions" :key="`title-${i}`">
+        <p class="title-wrap"><span class="title">题目{{i+1}}:</span> <span>{{item.title}}</span></p>
+        <div>答案: 
+          <div 
+            class="opt-wrap"
+            v-for="(opt,index) in item.options" 
+            :key="`opt-${index}`">
+            <el-link :type="opt.is_answer?'success':'default'" :underline="opt.is_answer">{{opt.title}}</el-link>
+          </div>
+        </div>
+        <el-divider></el-divider>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+const Counter = {
+  data() {
+    return {
+      inputJson: '',
+      summaryInfo:{}
+    }
+  },
+  methods: {
+    handelToJson(){
+      this.summaryInfo = JSON.parse(this.inputJson)
+      console.log(this.summaryInfo);
+    },
+    handelToTest(){
+      console.log(this);
+    }
+  }
+}
+Vue.createApp(Counter).use(ElementPlus).mount('#counter')
+</script>
+</html>
